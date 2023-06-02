@@ -1,3 +1,5 @@
+import Feed from "@components/feed";
+
 export default function Home() {
    return (
       <section className='w-full flex-col flex-center'>
@@ -12,7 +14,7 @@ export default function Home() {
          Discover, create and share creative prompts with Promptastic —
          the open-source AI prompting tool
          </p>
-         {/* Feed */}
+         <Feed />
       </section>
    )
 }
