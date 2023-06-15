@@ -1,5 +1,11 @@
-export default function Provider() {
+'use client';
+
+import { SessionProvider } from 'next-auth/react';
+
+export default function Provider({ children, session }) {
    return (
-      <div>Hello World!</div>
+      <SessionProvider session={session}>
+         {children}
+      </SessionProvider>
    )
 }
