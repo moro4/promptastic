@@ -6,7 +6,23 @@ import {useState, useEffect} from 'react';
 import {signIn, signOut, useSession, getProviders} from 'next-auth/react';
 
 export default function Nav() {
-   const {data: userLoggedIn, status} = useSession();
+
+   //   Return value of useSession() hook:
+   //
+   //    {
+   //       "data": {
+   //           "user": {
+   //               "name": "first second",
+   //               "email": "myemail@gmail.com",
+   //               "image": "https://lh3.googleusercontent.com/...",
+   //               "id": "SOMEIDTOKEN"
+   //           },
+   //           "expires": "YYYY-MM-DDTHH:MM:SS"
+   //       },
+   //       "status": "authenticated"
+   //   }
+   const {data: sessionData, status: loginStatus} = useSession();
+
    const [providers, setProviders] = useState(null);
    const [toggleDropDown, setToggleDropDown] = useState(false);
 
@@ -33,7 +49,7 @@ export default function Nav() {
 
          {/* Desktop Navigation */}
          <div className="sm:flex hidden">
-            {userLoggedIn
+            {loginStatus === 'authenticated'
                ? <div className='flex gap-3 md:gap-5'>
 
                   <Link href='/create-prompt' className='black_btn'>
@@ -48,9 +64,9 @@ export default function Nav() {
                      Sign Out
                   </button>
 
-                  <Link href='/Profile'>
+                  <Link href='/profile'>
                      <Image
-                        src='/assets/images/logo.svg'
+                        src={sessionData.user.image}
                         width='37'
                         height='37'
                         className='rounded-full'
@@ -75,11 +91,11 @@ export default function Nav() {
 
          {/* Mobile Navigation */}
          <div className='sm:hidden flex relative'>
-            {userLoggedIn
+            {loginStatus === 'authenticated'
                ? <div className='flex'>
 
                   <Image
-                     src='/assets/images/logo.svg'
+                     src={sessionData.user.image}
                      width='37'
                      height='37'
                      className='rounded-full'

@@ -12,7 +12,7 @@ export async function connectToDB() {
 
    try {
       await mongoose.connect(process.env.MONGODB_URI, {
-         dbName: 'share_prompt',
+         dbName: 'promptastic',
          useNewUrlParser: true,
          useUnifiedTopology: true,
       });

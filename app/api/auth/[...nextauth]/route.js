@@ -12,8 +12,25 @@ const handler = NextAuth({
    ],
    callbacks: {
       async signIn({profile}) {
+         // profile object:
+         //
+         // {
+         //    iss: 'https://accounts.google.com',
+         //    azp: '...apps.googleusercontent.com',
+         //    aud: '...apps.googleusercontent.com',
+         //    sub: '113411755080659876609',
+         //    email: 'someemail@gmail.com',
+         //    email_verified: true,
+         //    at_hash: 'somehash',
+         //    name: 'first last',
+         //    picture: 'https://lh3.googleusercontent.com/...',
+         //    given_name: 'first',
+         //    family_name: 'last',
+         //    locale: 'en',
+         //    iat: somenumber,
+         //    exp: somenumber
+         //  }
          try {
-            console.log('PROFILE OBJECT: ', profile);
             await connectToDB();
             const userExists = await User.findOne({email: profile.email});
             if (!userExists) {
@@ -30,7 +47,16 @@ const handler = NextAuth({
          }
       },
       async session({session}) {
-         console.log('SESSION OBJECT: ', session);
+         // session object:
+         //
+         // {
+         //    user: {
+         //      name: 'first last',
+         //      email: 'someemail@gmail.com',
+         //      image: 'https://lh3.googleusercontent.com/...'
+         //    },
+         //    expires: 'YYYY-MM-DDTHH:MM:SS'
+         //  }
          const sessionUser = await User.findOne({email: session.user.email});
          session.user.id = sessionUser._id.toString();
          return session;
