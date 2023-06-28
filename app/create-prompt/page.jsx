@@ -8,6 +8,8 @@ import Form from '@components/form'
 export default function CreatePrompt() {
    const [submitting, setSubmitting] = useState(false);
    const [post, setPost] = useState({prompt: '', tag: ''});
+   const router = useRouter();
+   const {data: session} = useSession();
 
    async function createPrompt(e) {
       e.preventDefault();
@@ -18,7 +20,7 @@ export default function CreatePrompt() {
             method: 'POST',
             body: JSON.stringify({
                prompt: post.prompt,
-               useriD: session.user.id,
+               userID: session.user.id,
                tag: post.tag
             })
          });
