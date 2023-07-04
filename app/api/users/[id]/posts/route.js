@@ -4,7 +4,7 @@ import Prompt from '@models/prompt';
 export async function GET(reg, {params: {id}}) {
    try {
       await connectToDB();
-      const prompts = await Prompt.findOne({creator: id}).populate('creator');
+      const prompts = await Prompt.find({creator: id}).populate('creator');
       return new Response(JSON.stringify(prompts), {status: 200});
    } catch (error) {
       return new Response(
