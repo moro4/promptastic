@@ -8,7 +8,25 @@ import {usePathname, useRouter} from 'next/navigation';
 export default function PromptCard(
    {post, handleTagClick, handleEdit, handleDelete}
 ) {
+   //   Return value of useSession() hook:
+   //
+   //    {
+   //       "data": {
+   //           "user": {
+   //               "name": "first second",
+   //               "email": "myemail@gmail.com",
+   //               "image": "https://lh3.googleusercontent.com/...",
+   //               "id": "SOMEIDTOKEN"
+   //           },
+   //           "expires": "YYYY-MM-DDTHH:MM:SS"
+   //       },
+   //       "status": "authenticated"
+   //   }
+   const {status} = useSession();
+   const pathName = usePathname();
+   const router = useRouter();
    const [copied, setCopied] = useState('');
+
    function handleCopy() {
       setCopied(post.prompt);
       navigator.clipboard.writeText(post.prompt);
@@ -51,6 +69,7 @@ export default function PromptCard(
                      : '/assets/icons/copy.svg'}
                   width='18'
                   height='18'
+                  alt='copy icon'
                />
             </div>
 
@@ -64,7 +83,23 @@ export default function PromptCard(
          >
             {post.tag}
          </p>
+         {status === 'authenticated' && pathName === '/profile' && (
+            <div className='mt-5 flex-center gap-4 border-t border-gray-100
+               pt-3'
+            >
+               <p className='font-inter text-sm green_gradient cursor-pointer'
+                  onClick={() => handleEdit(post)}
+               >
+                  Edit
+               </p>
 
+               <p className='font-inter text-sm orange_gradient cursor-pointer'
+                  onClick={() => handleDelete(post)}
+               >
+                  Delete
+               </p>
+            </div>
+         )}
       </div>
    )
 }
