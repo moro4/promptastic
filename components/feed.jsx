@@ -33,6 +33,11 @@ export default function Feed() {
       setTimeout(() => setPosts(filteredPosts), 300);
    }
 
+   function handleTagClick(tag) {
+      const filteredTags = posts.filter(post => post.tag.includes(tag.trim()))
+      setPosts(filteredTags);
+   }
+
    useEffect(() => {
       async function fetchPosts() {
          // retrive all prompts from all users
@@ -59,7 +64,7 @@ export default function Feed() {
 
          <PromptCardList
             data={posts}
-            handleTagClick={() => {}}
+            handleTagClick={handleTagClick}
          />
       </section>
    )
