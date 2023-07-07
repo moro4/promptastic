@@ -1,6 +1,6 @@
 'use client';
 
-import {useState, useEffect} from 'react';
+import {useState, useEffect, useRef} from 'react';
 import PromptCard from './promptcard';
 
 function PromptCardList({data, handleTagClick}) {
@@ -20,15 +20,25 @@ function PromptCardList({data, handleTagClick}) {
 export default function Feed() {
    const [searchText, setSearchText] = useState('');
    const [posts, setPosts] = useState([]);
+   const allPosts = useRef('');
 
-   function handleSearchChange(e) {
-      console.log('handleInput');
+   function handleSearchQuery(e) {
+      const q = e.target.value.toLowerCase();
+      const filteredPosts = allPosts.current.filter(post => {
+         const searchstr = post.creator.username + post.prompt + post.tag
+         return searchstr.toLowerCase().includes(q);
+      });
+      setSearchText(q);
+      // some debouncing
+      setTimeout(() => setPosts(filteredPosts), 300);
    }
 
    useEffect(() => {
       async function fetchPosts() {
+         // retrive all prompts from all users
          const response = await fetch('/api/prompt');
          const data = await response.json();
+         allPosts.current = data
          setPosts(data);
       }
       fetchPosts();
@@ -41,7 +51,7 @@ export default function Feed() {
                type="text"
                placeholder='Search for a tag or a username'
                value={searchText}
-               onChange={handleSearchChange}
+               onChange={handleSearchQuery}
                required
                className='search_input'
             />
