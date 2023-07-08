@@ -4,6 +4,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import {useState, useEffect} from 'react';
 import {signIn, signOut, useSession, getProviders} from 'next-auth/react';
+import * as DDMenu from '@radix-ui/react-dropdown-menu';
+import '@styles/ddmenu.css';
 
 export default function Nav() {
 
@@ -24,7 +26,6 @@ export default function Nav() {
    const {data: sessionData, status: loginStatus} = useSession();
 
    const [providers, setProviders] = useState(null);
-   const [toggleDropDown, setToggleDropDown] = useState(false);
 
    useEffect(() => {
       async function retrieveProviders() {
@@ -81,7 +82,7 @@ export default function Nav() {
                         type='button'
                         key={provider.name}
                         onClick={() => signIn(provider.id)}
-                        className='black_btn'
+                        className='black_btn cursor-pointer'
                      >
                         Sign In
                      </button>
@@ -93,46 +94,73 @@ export default function Nav() {
          <div className='sm:hidden flex relative'>
             {loginStatus === 'authenticated'
                ? <div className='flex'>
-
-                  <Image
-                     src={sessionData.user.image}
-                     width='37'
-                     height='37'
-                     className='rounded-full'
-                     alt='profile'
-                     onClick={() => setToggleDropDown(state => !state)}
-                  />
-
-                  {toggleDropDown &&
-                     <div className='dropdown'>
-
-                        <Link
-                           href='/profile'
-                           className='dropdown_link'
-                           onClick={() => setToggleDropDown(false)}
-                        >
-                           My Profile
+                  <DDMenu.Root>
+                     <DDMenu.Trigger>
+                        <Image
+                           src={sessionData.user.image}
+                           width='37'
+                           height='37'
+                           className='rounded-full'
+                           alt='profile'
+                        />
+                     </DDMenu.Trigger>
+                     <DDMenu.Content
+                        className='DDMenuContent'
+                        sideOffset={7} align='end' loop='true'
+                     >
+                        <Link href='/'>
+                           <DDMenu.Item className='DDMenuItem'>
+                              <Image
+                                 src="assets/images/home.svg"
+                                 width='18'
+                                 height='18'
+                                 alt='home icon'
+                                 className='LeftSlot'
+                              />
+                              Main
+                           </DDMenu.Item>
                         </Link>
-
-                        <Link
-                           href='/create-prompt'
-                           className='dropdown_link'
-                           onClick={() => setToggleDropDown(false)}
-                        >
-                           Create Prompt
+                        <Link href='/profile'>
+                           <DDMenu.Item className='DDMenuItem'>
+                              <Image
+                                 src="assets/images/person.svg"
+                                 width='18'
+                                 height='18'
+                                 alt='user icon'
+                                 className='LeftSlot'
+                              />
+                              My Profile
+                           </DDMenu.Item>
                         </Link>
-
-                        <button
-                           type='button'
-                           onClick={() => {setToggleDropDown(false); signOut()}}
-                           className='mt-5 w-full black_btn'
+                        <Link href='/create-prompt'>
+                           <DDMenu.Item className='DDMenuItem'>
+                              <Image
+                                 src="assets/images/pencil.svg"
+                                 width='18'
+                                 height='18'
+                                 alt='pencil icon'
+                                 className='LeftSlot'
+                              />
+                              Create Prompt
+                           </DDMenu.Item>
+                        </Link>
+                        <DDMenu.Separator className='DDMenuSeparator' />
+                        <button type='button' onClick={() => signOut()}
+                           className='w-full'
                         >
-                           Sign Out
+                           <DDMenu.Item className='DDMenuItem'>
+                              <Image
+                                 src="assets/images/exit.svg"
+                                 width='18'
+                                 height='18'
+                                 alt='sign out icon'
+                                 className='LeftSlot'
+                              />
+                              Sign Out
+                           </DDMenu.Item>
                         </button>
-
-                     </div>
-                  }
-
+                     </DDMenu.Content>
+                  </DDMenu.Root>
                </div>
                : <>
                   {providers && Object.values(providers).map(provider => (
