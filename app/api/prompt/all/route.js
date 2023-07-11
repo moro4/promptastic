@@ -8,7 +8,7 @@ export async function POST(req) {
       return new Response(JSON.stringify(prompts), {status: 200});
    } catch (error) {
       return new Response(
-         JSON.stringify('Failed to fetch prompts', {status: 500})
+         JSON.stringify('Failed to fetch all prompts', {status: 500})
       );
    }
 }
