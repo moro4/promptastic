@@ -9,7 +9,8 @@ export async function GET(req, {params: {id}}) {
       return new Response(JSON.stringify(prompt), {status: 200});
    } catch (error) {
       return new Response(
-         JSON.stringify('Failed to fetch prompts'), {status: 500}
+         JSON.stringify(`Failed to fetch a prompts with the id ${id}`),
+         {status: 500}
       );
    }
 }

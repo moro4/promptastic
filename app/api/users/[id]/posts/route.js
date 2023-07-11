@@ -8,7 +8,8 @@ export async function GET(reg, {params: {id}}) {
       return new Response(JSON.stringify(prompts), {status: 200});
    } catch (error) {
       return new Response(
-         JSON.stringify('Failed to fetch prompts', {status: 500})
+         JSON.stringify(`Failed to fetch prompts for user with id ${id}`,
+         {status: 500})
       );
    }
 }
