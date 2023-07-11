@@ -41,7 +41,9 @@ export default function Feed() {
    useEffect(() => {
       async function fetchPosts() {
          // retrive all prompts from all users
-         const response = await fetch('/api/prompt/all');
+         const response = await fetch('/api/prompt/all', {
+            method: 'POST'
+         });
          const data = await response.json();
          allPosts.current = data
          setPosts(data);
