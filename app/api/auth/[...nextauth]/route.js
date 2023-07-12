@@ -57,6 +57,7 @@ const handler = NextAuth({
          //    },
          //    expires: 'YYYY-MM-DDTHH:MM:SS'
          //  }
+         await connectToDB();
          const sessionUser = await User.findOne({email: session.user.email});
          session.user.id = sessionUser._id.toString();
          return session;
