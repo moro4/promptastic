@@ -40,8 +40,8 @@ export default function Nav() {
          <Link href='/' className='flex-center gap-2'>
             <Image
                src='/assets/images/logo.svg'
-               width='30'
-               height='30'
+               width='35'
+               height='35'
                alt='Promptastic logo'
                className='object-contain'
             />
@@ -68,8 +68,8 @@ export default function Nav() {
                   <Link href='/profile'>
                      <Image
                         src={sessionData.user.image}
-                        width='37'
-                        height='37'
+                        width='35'
+                        height='35'
                         className='rounded-full'
                         alt='profile'
                      />
@@ -98,8 +98,8 @@ export default function Nav() {
                      <DDMenu.Trigger>
                         <Image
                            src={sessionData.user.image}
-                           width='37'
-                           height='37'
+                           width='35'
+                           height='35'
                            className='rounded-full'
                            alt='profile'
                         />
